@@ -30,11 +30,19 @@ class Solution:
             return self.binarySearch(num, m+1, r, value)
 
     def binarySearch(self, num, l, r, value):
-        m = (l + r)
-        while l < r:
+        while l <= r:
+            m = (l + r) / 2
+            if num[m][0] == value:
+                return num[m][1]
+            if num[m][0] < value:
+                l = m + 1
+                continue
+            if num[m][0] > value:
+                r = m - 1
+                continue
 
-num = [-1,-2,-3,-4,-5]
-target = -8
+num = [1,2,3,4,5]
+target = 9
 solution = Solution()
 print solution.twoSum(num, target)
 
