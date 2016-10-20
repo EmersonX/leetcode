@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class Solution(object):
     def longestPalindrome(self, s):
         """
@@ -29,9 +31,27 @@ class Solution(object):
             i += 1
         return result
 
+    def dpSolution(self, s):
+        """
+        DP solution but got time limit exceeded
+        """
+        i, subl, result, cache, l = 0, 1, "", defaultdict(lambda: False), len(s)
+
+        while subl <= l:
+            i = 0
+            while i + subl <= l:
+                if s[i] == s[i+subl-1] and ( (i + 1) > (i + subl -2) or \
+                    cache[(i+1, i+subl-2)]):
+                    cache[(i, i+subl-1)] = True
+                    result = s[i:i+subl] if subl > len(result) else result
+                i += 1
+            subl += 1
+
+        return result
+
 
 if __name__ == '__main__':
-    testcases = ('zxabac', 'asaaa', 'maambbccddmn', 'abb')
+    testcases = ('a', 'zxabac', 'asaaa', 'maambbccddmn', 'abb')
     s = Solution()
     for case in testcases:
-        print("{}: {}".format(case, s.longestPalindrome(case)))
+        print("{}: {}".format(case, s.dpSolution(case)))
